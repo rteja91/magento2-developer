@@ -1,0 +1,33 @@
+version: "2.0"
+services:
+  web:
+    container_name: magento2-developer
+    image: arvindr226/m2
+    ports:
+       - "80:80"
+       - "443:443"
+       - "2222:22"
+    volumes:
+      - ./html:/var/www/html
+    restart: always
+  mysql_db:
+    image: mysql:5.6
+    container_name: magento2_db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: magento2
+      MYSQL_USER: magento2
+      MYSQL_PASSWORD: gotechnies
+      MYSQL_ROOT_PASSWORD: gotechnies
+    restart: always
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+    restart: always
+    ports:
+     - 8080:80
+    volumes:
+     - /sessions
