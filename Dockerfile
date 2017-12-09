@@ -15,6 +15,7 @@ RUN apt-get update \
 		php7.0-mbstring \
 		php7.0-mysql \
 		php7.0-zip \
+		php7.0-soap \
 		openssh-server \
 		composer \
 		php7.0-mcrypt \
@@ -26,6 +27,7 @@ RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/Allo
 RUN a2enmod rewrite expires
 RUN a2enmod ssl
 RUN a2enmod headers
+RUN service apache2 restart
 
 RUN mkdir /var/run/sshd
 RUN echo 'root:screencast' | chpasswd
@@ -42,6 +44,8 @@ WORKDIR /var/www/html
 VOLUME /var/www/html
 # Default command	
 #CMD ["apachectl", "-D", "FOREGROUND"] 
+RUN chown -R www-data:www-data ./
+RUN composer install
 # Ports
 EXPOSE 80
 EXPOSE 443
